@@ -8,10 +8,16 @@ app.get("/", function(req, res) {
         response.on("data", function(data) {
             const weatherData = JSON.parse(data);
             const temp = weatherData.main.temp;
-            console.log(temp);
+            const weatherDescription = weatherData.weather[0].description;
+            const icon = weatherData.weather[0].icon;
+            const imageURL = "http://openweathermap.org/img/wn/" + icon + "@2x.png";
+            res.write("<p>Weather is currently " + weatherDescription + "</p>");
+            res.write("<h1>The temperature in Moscow is " + temp + " degrees.</h1>");
+            res.write("<img src=" + imageURL + ">");
+            res.send();
         })
     });
-    res.send("The server is up and running.");
+    //res.send("The server is up and running.");
 });
 app.listen(3000, function() {
     console.log("Server is running on port 3000.");
